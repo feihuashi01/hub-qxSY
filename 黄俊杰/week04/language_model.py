@@ -23,7 +23,7 @@ import matplotlib.pyplot as plt
 """
 
 
-# ─────────────────────────── 数据 ───────────────────────────
+# 数据
 
 def load_corpus(pattern="corpus_general.txt"):
     text = ""
@@ -61,7 +61,7 @@ class CharDataset(Dataset):
         return x, y
 
 
-# ─────────────────────────── 模型 ───────────────────────────
+# 模型
 
 class Block(nn.Module):
     """自注意力 + 前馈网络，均带残差，LayerNorm 放在子层前（Pre-LN）。"""
@@ -109,7 +109,7 @@ class TransformerLM(nn.Module):
         return self.fc(self.norm(h))                                    # (B, T, vocab)
 
 
-# ─────────────────────────── 训练 / 评估 ───────────────────────────
+# 训练 / 评估
 
 def run_epoch(model, loader, criterion, optimizer, device, train=True):
     """跑一轮，返回 (平均 loss, PPL)。"""
@@ -130,7 +130,7 @@ def run_epoch(model, loader, criterion, optimizer, device, train=True):
     return avg_loss, math.exp(avg_loss)    # PPL = e^loss
 
 
-# ─────────────────────────── 生成 ───────────────────────────
+# 生成
 
 @torch.no_grad()
 def generate(model, char2idx, idx2char, prompt, n=40, temperature=1.0, device="cpu"):
@@ -146,7 +146,7 @@ def generate(model, char2idx, idx2char, prompt, n=40, temperature=1.0, device="c
     return "".join(idx2char[i] for i in ids)
 
 
-# ─────────────────────────── 主函数 ───────────────────────────
+# 主函数
 
 def main():
     parser = argparse.ArgumentParser()
